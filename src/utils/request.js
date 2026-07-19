@@ -36,6 +36,8 @@ instance.interceptors.response.use(
   (err) => {
     // TODO 5. 处理401错误
     if (err.response?.status === 401) {
+      const userStore = useUserStore()
+      userStore.removeToken()
       router.push('/login')
       ElMessage.error('登录状态已过期，请重新登录！')
     }

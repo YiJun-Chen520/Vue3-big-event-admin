@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/index'
 
 const router = useRouter()
-const isRegister = ref(true)
+const isRegister = ref(false)
 const form = ref(null)
 
 const formModel = ref({
@@ -71,7 +71,7 @@ const Login = async () => {
 
   // 登录成功，存储token并跳转
   const userStore = useUserStore()
-  userStore.setToken(res.data.token)
+  userStore.setToken(res.data?.token?.replace('Bearer ', ''))
   router.push('/')
 }
 </script>
