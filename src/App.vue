@@ -4,6 +4,10 @@ const userStore = useUserStore()
 </script>
 
 <template>
+  <router-view></router-view>
+  <hr />
+  <hr />
+  <hr />
   <div>app</div>
   <p></p>
   <div>{{ userStore.token }}</div>
