@@ -1,10 +1,13 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
+import { userRegisterService } from '@/api/user'
+import { ElMessage } from 'element-plus'
 
 const isRegister = ref(true)
+const form = ref(null)
 
-const formModel = reactive({
+const formModel = ref({
   username: '',
   password: '',
   repassword: '',
@@ -23,7 +26,7 @@ const rules = {
   repassword: [
     {
       validator: (rule, value, callback) => {
-        if (value !== formModel.password) {
+        if (value !== formModel.value.password) {
           callback(new Error('两次输入的密码不一致'))
         } else {
           callback()
@@ -32,6 +35,16 @@ const rules = {
       trigger: 'blur',
     },
   ],
+}
+
+const register = async () => {
+  // 注册预校验
+  await form.value.validate()
+
+  // 开始注册
+  await userRegisterService(formModel.value)
+  ElMessage.success('注册成功，请登录')
+  isRegister.value = false
 }
 </script>
 
@@ -80,7 +93,9 @@ const rules = {
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button class="button" type="primary" auto-insert-space> 注册 </el-button>
+          <el-button @click="register" class="button" type="primary" auto-insert-space>
+            注册
+          </el-button>
         </el-form-item>
         <el-form-item class="flex">
           <el-link type="info" :underline="false" @click="isRegister = false"> ← 返回 </el-link>
