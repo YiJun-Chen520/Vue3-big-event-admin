@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import { artGetChannelsService } from '../../api/article'
 import { onMounted } from 'vue'
 import { Edit, Delete } from '@element-plus/icons-vue'
+import ChannelEdit from './component/ChannelEdit.vue'
 
 const artChannels = ref([])
 const loading = ref(false)
+const dialog = ref()
 
 // 获取文章分类
 const getArtChannels = async () => {
@@ -19,21 +21,26 @@ onMounted(() => {
   getArtChannels()
 })
 
-// 编辑文章分类
-const ChannelEdit = (row, $index) => {
+// 删除文章分类
+const channelDelete = (row, $index) => {
   console.log(row, $index)
 }
 
-// 删除文章分类
-const ChannelDelete = (row, $index) => {
-  console.log(row, $index)
+// 编辑文章分类
+const channelEdit = (row) => {
+  dialog.value.open(row)
+}
+
+// 添加文章分类
+const channelAdd = () => {
+  dialog.value.open({})
 }
 </script>
 
 <template>
   <page-container title="文章分类">
     <template #extra>
-      <el-button type="primary">添加分类</el-button>
+      <el-button @click="channelAdd" type="primary">添加分类</el-button>
     </template>
 
     <el-table v-loading="loading" :data="artChannels" style="width: 100%">
@@ -47,14 +54,14 @@ const ChannelDelete = (row, $index) => {
             plain
             circle
             :icon="Edit"
-            @click="ChannelEdit(row, $index)"
+            @click="channelEdit(row, $index)"
           ></el-button>
           <el-button
             type="danger"
             plain
             circle
             :icon="Delete"
-            @click="ChannelDelete(row, $index)"
+            @click="channelDelete(row, $index)"
           ></el-button>
         </template>
       </el-table-column>
@@ -62,6 +69,7 @@ const ChannelDelete = (row, $index) => {
         <el-empty description="暂无数据"></el-empty>
       </template>
     </el-table>
+    <ChannelEdit ref="dialog"></ChannelEdit>
   </page-container>
 </template>
 
