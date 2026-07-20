@@ -1,7 +1,11 @@
-<template>频道管理</template>
+<template>
+  <page-container title="文章分类">
+    <template #extra>
+      <el-button type="primary">添加分类</el-button>
+    </template>
 
-<script>
-export default {}
-</script>
+    主体内容
+  </page-container>
+</template>
 
-<style></style>
+<style lang="scss" scoped></style>
