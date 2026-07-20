@@ -11,26 +11,26 @@ const router = createRouter({
     {
       path: '/',
       component: () => import('@/views/layout/LayoutContainer.vue'),
-      redirect: '/manage',
+      redirect: '/article/manage',
       children: [
         {
-          path: '/manage',
+          path: '/article/manage',
           component: () => import('@/views/article/ArticleManage.vue'),
         },
         {
-          path: '/channel',
+          path: '/article/channel',
           component: () => import('@/views/article/ArticleChannel.vue'),
         },
         {
-          path: '/profile',
+          path: '/user/profile',
           component: () => import('@/views/user/UserProfile.vue'),
         },
         {
-          path: '/avatar',
+          path: '/user/avatar',
           component: () => import('@/views/user/UserAvatar.vue'),
         },
         {
-          path: '/password',
+          path: '/user/password',
           component: () => import('@/views/user/UserPassword.vue'),
         },
       ],

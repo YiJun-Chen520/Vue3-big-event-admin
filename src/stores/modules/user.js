@@ -20,6 +20,9 @@ export const useUserStore = defineStore(
       const res = await userGetInfoService()
       userInfo.value = res.data.data
     }
+    const setUserInfo = (newUserInfo) => {
+      userInfo.value = newUserInfo
+    }
 
     return {
       token,
@@ -27,6 +30,7 @@ export const useUserStore = defineStore(
       removeToken,
       userInfo,
       getUserInfo,
+      setUserInfo,
     }
   },
   {
