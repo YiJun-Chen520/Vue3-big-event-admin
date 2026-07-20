@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import { artGetChannelsService } from '../../api/article'
+import { artGetChannelsService, artDelService } from '../../api/article'
 import { onMounted } from 'vue'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import ChannelEdit from './component/ChannelEdit.vue'
+import { ElMessageBox } from 'element-plus'
 
 const artChannels = ref([])
 const loading = ref(false)
@@ -22,8 +23,16 @@ onMounted(() => {
 })
 
 // 删除文章分类
-const channelDelete = (row, $index) => {
+const channelDelete = async (row, $index) => {
   console.log(row, $index)
+  await ElMessageBox.confirm('是否删除该分类?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+  await artDelService(row.id)
+  ElMessage.success('删除成功')
+  getArtChannels()
 }
 
 // 编辑文章分类
@@ -34,6 +43,11 @@ const channelEdit = (row) => {
 // 添加文章分类
 const channelAdd = () => {
   dialog.value.open({})
+}
+
+// 子传父刷新页面
+const onSuccess = () => {
+  getArtChannels()
 }
 </script>
 
@@ -69,7 +83,7 @@ const channelAdd = () => {
         <el-empty description="暂无数据"></el-empty>
       </template>
     </el-table>
-    <ChannelEdit ref="dialog"></ChannelEdit>
+    <ChannelEdit ref="dialog" @success="onSuccess"></ChannelEdit>
   </page-container>
 </template>
 
